@@ -15,12 +15,25 @@ public class EmployeeService {
 	JpaRepo repository;
 
 	public Employee create(Employee emp) {
-		return repository.save(emp);
+		List<Employee> list = repository.findAll();
+		if(list.isEmpty()) {
+			return repository.save(emp);
 
+		}
+		
+		for (Employee temp : list) {
+
+		 if(temp.getEmployeID() == emp.getEmployeID())
+			{
+				return null;
+			}
+		}
+
+		return repository.save(emp);
 	}
 
 	public Employee update(int empId, Employee employee) {
-		List<Employee> list = (List<Employee>) repository.findAll();
+		List<Employee> list =  repository.findAll();
 		for (Employee emp : list) {
 
 			if (emp.getEmployeID() == empId) {
@@ -32,7 +45,7 @@ public class EmployeeService {
 	}
 
 	public String delete(int empID) {
-		List<Employee> list = (List<Employee>) repository.findAll();
+		List<Employee> list = repository.findAll();
 		for (Employee emp : list) {
 
 			if (emp.getEmployeID() == empID) {
@@ -46,7 +59,7 @@ public class EmployeeService {
 
 	}
 
-	public Optional<Employee> VewById(int id) {
+	public Optional<Employee> ViewById(int id) {
 		return repository.findById(id);
 	}
 

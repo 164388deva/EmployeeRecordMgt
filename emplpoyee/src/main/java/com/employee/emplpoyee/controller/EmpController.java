@@ -3,6 +3,8 @@ package com.employee.emplpoyee.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +25,13 @@ public class EmpController {
 	EmployeeService empService;
 
 	@PostMapping(value = "/insert")
-	public Employee insert(@RequestBody Employee emp) {
+	public Employee insert(@Valid @RequestBody Employee emp) {
 		return empService.create(emp);
 
 	}
 
 	@PutMapping(value = "/update/{id}")
-	public Employee update(@RequestBody Employee emp, @PathVariable int id) {
+	public Employee update(@Valid @RequestBody Employee emp, @PathVariable int id) {
 		return empService.update(id, emp);
 
 	}
@@ -37,7 +39,7 @@ public class EmpController {
 	@GetMapping(value = "/viewBy/{id}")
 	public Optional<Employee> EmployeeViewByID(@PathVariable int id) {
 
-		return empService.VewById(id);
+		return empService.ViewById(id);
 	}
 	
 	@DeleteMapping(value = "/delete/{id}")

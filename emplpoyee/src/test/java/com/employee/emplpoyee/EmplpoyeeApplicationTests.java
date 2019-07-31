@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,8 @@ import com.employee.emplpoyee.pojo.Employee;
 import com.employee.emplpoyee.service.EmployeeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(EmpController.class)
@@ -59,10 +62,9 @@ public class EmplpoyeeApplicationTests {
 		// Test case for status code 200 and for correct output
 
 		MvcResult result = mockMvc.perform(post("/employee/insert").accept(MediaType.APPLICATION_JSON)
-				.content(inputInJson).contentType(MediaType.APPLICATION_JSON)).andReturn();
+				.content(inputInJson).contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.name").value("dev")).andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		String outputInJson = response.getContentAsString();
-
 		assertThat(outputInJson).isEqualTo(inputInJson);
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 
@@ -99,7 +101,7 @@ public class EmplpoyeeApplicationTests {
 		Mockito.when(mockservice.ViewById(Mockito.anyInt())).thenReturn(Optional.of(emp));
 
 		MvcResult result = mockMvc
-				.perform(get("/employee/viewBy/{id}", new Integer(123)).accept(MediaType.APPLICATION_JSON)).andReturn();
+				.perform(get("/employee/viewBy/{id}", new Integer(123)).accept(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.name").value("dev")).andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		String outputInJson = response.getContentAsString();
 
@@ -165,6 +167,7 @@ public class EmplpoyeeApplicationTests {
 		Mockito.when(mockservice.update(Mockito.anyInt(), Mockito.any(Employee.class))).thenReturn(emp);
 		MvcResult result = this.mockMvc.perform(put("/employee/update/{id}", new Integer(123))
 				.accept(MediaType.APPLICATION_JSON).content(inputInJson).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.name").value("dev"))
 				.andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		String outputInJson = response.getContentAsString();
@@ -217,7 +220,10 @@ public class EmplpoyeeApplicationTests {
 		Mockito.when(mockservice.viewAll()).thenReturn(list);
 		// Test case for status code 200 and for correct output
 
-		MvcResult result = this.mockMvc.perform(get("/employee/viewAll")).andReturn();
+		MvcResult result = this.mockMvc.perform(get("/employee/viewAll"))
+				.andExpect(jsonPath("$[0].name").value("dev"))
+				.andExpect(jsonPath("$[1].name").value("deva"))
+				.andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		String outputInJson = response.getContentAsString();
 		assertThat(outputInJson).isNotEqualTo(null);

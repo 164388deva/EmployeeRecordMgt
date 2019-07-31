@@ -4,64 +4,73 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "EMPLOYEE")
 public class Employee {
 
 	@Id
-	@Column(name = "employeID")
-	private int employeID;
-	@Column(name = "eName")
-	private String eName;
-
-	@Column(name = "eEmail")
-	private String eEmail;
-
-	@Column(name = "eLocation")
-	private String eLocation;
+	@Column(name = "EMPLOYEID")
+	@NotNull
+	private int EMPLOYEID;
+	@Column(name = "ENAME")
+	@NotNull
+	private String ENAME;
+	@NotNull
+	@Column(name = "EEMAIL")
+	private String EEMAIL;
+	@NotNull
+	@Column(name = "ELOCATION")
+	private String ELOCATION;
 
 	public Employee(int employeID, String name, String email, String location) {
 		super();
-		this.employeID = employeID;
-		this.eName = name;
-		this.eEmail = email;
-		this.eLocation = location;
+		this.EMPLOYEID = employeID;
+		this.ENAME = name;
+		this.EEMAIL = email;
+		this.ELOCATION = location;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [EMPLOYEID=" + EMPLOYEID + ", ENAME=" + ENAME + ", EEMAIL=" + EEMAIL + ", ELOCATION="
+				+ ELOCATION + "]";
 	}
 
 	public Employee() {
 	}
 
 	public int getEmployeID() {
-		return employeID;
+		return EMPLOYEID;
 	}
 
 	public void setEmployeID(int employeID) {
-		this.employeID = employeID;
+		this.EMPLOYEID = employeID;
 	}
 
 	public String getName() {
-		return eName;
+		return ENAME;
 	}
 
 	public void setName(String name) {
-		this.eName = name;
+		this.ENAME = name;
 	}
 
 	public String getEmail() {
-		return eEmail;
+		return EEMAIL;
 	}
 
 	public void setEmail(String email) {
-		this.eEmail = email;
+		this.EEMAIL = email;
 	}
 
 	public String getLocation() {
-		return eLocation;
+		return ELOCATION;
 	}
 
 	public void setLocation(String location) {
-		this.eLocation = location;
+		this.ELOCATION = location;
 	}
 
 }
